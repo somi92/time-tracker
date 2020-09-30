@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { showOnlyStandardWorkingHours } from "./store";
+
   let width;
 
-  let timePoints = Array.from(Array(24).keys());
-  timePoints = timePoints.slice(6,20);
+  $: timePoints = $showOnlyStandardWorkingHours
+    ? timePoints.slice(7, 19)
+    : Array.from(Array(24).keys());
 
   $: unitWidth = width / timePoints.length - 10;
 </script>

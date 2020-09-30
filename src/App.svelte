@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Navbar, NavbarBrand } from "sveltestrap";
+  import NavBar from "./NavBar.svelte";
   import TaskSelector from "./TaskSelector.svelte";
   import WeekBoard from "./WeekBoard.svelte";
 </script>
@@ -18,11 +18,7 @@
   }
 </style>
 
-<Navbar color="dark">
-  <NavbarBrand class="text-light font-weight-light font-italic">
-    weekly time tracker
-  </NavbarBrand>
-</Navbar>
+<NavBar />
 <div class="container-fluid">
   <div class="row padding-tb">
     <div class="col-3" />

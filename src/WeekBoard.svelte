@@ -1,14 +1,26 @@
 <script lang="ts">
   import Timeline from "./Timeline.svelte";
+  import addDays from "date-fns/addDays";
+  import format from "date-fns/format";
+  import { showWeekend, selectedWeekStart } from "./store";
 
-  let showWeekend = true;
+  type Weekday = { day: string; date: string };
 
-  let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  let weekdays: Weekday[] = new Array(7);
+  for (let i = 0; i < weekdays.length; i++) {
+    const temp = addDays(selectedWeekStart, i);
+    weekdays[i] = {
+      day: format(temp, "iiii"),
+      date: format(temp, "dd.MM.yyyy"),
+    };
+  }
 
-  $: if (showWeekend) {
-    weekdays = [...weekdays, "Saturday", "Sunday"];
+  let visibleWeekdays = weekdays.slice(0, 5);
+
+  $: if ($showWeekend) {
+    visibleWeekdays = weekdays;
   } else {
-    weekdays = weekdays.slice(0, 5);
+    visibleWeekdays = weekdays.slice(0, 5);
   }
 </script>
 
@@ -51,9 +63,6 @@
   }
 </style>
 
-<label style="margin-left: 0.5rem;">
-  <input type="checkbox" bind:checked={showWeekend} /> Show weekend
-</label>
 <div class="row wrapper" style="border-bottom: 1px solid black;">
   <div class="col-1" />
   <div class="col-10">
@@ -62,9 +71,12 @@
   <div class="col-1">Total</div>
 </div>
 
-{#each weekdays as day}
+{#each visibleWeekdays as weekday}
   <div class="row wrapper weekday">
-    <div class="col-1 day-name font-italic">{day} <span>20.9.2020.</span></div>
+    <div class="col-1 day-name font-italic">
+      {weekday.day}
+      <span>{weekday.date}</span>
+    </div>
     <div class="col-10 day-graph" />
   </div>
 {/each}
