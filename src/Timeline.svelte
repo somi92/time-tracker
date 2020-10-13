@@ -21,7 +21,6 @@
   }
 
   .point {
-    /* width: 1px solid red; */
     position: relative;
     width: 10px;
     font-size: small;

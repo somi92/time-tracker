@@ -2,9 +2,10 @@
   import Timeline from "./Timeline.svelte";
   import addDays from "date-fns/addDays";
   import format from "date-fns/format";
+  import isSameDay from "date-fns/isSameDay";
   import { showWeekend, selectedWeekStart } from "./store";
 
-  type Weekday = { day: string; date: string };
+  type Weekday = { day: string; date: string; isToday: boolean };
 
   let weekdays: Weekday[] = new Array(7);
   for (let i = 0; i < weekdays.length; i++) {
@@ -12,6 +13,7 @@
     weekdays[i] = {
       day: format(temp, "iiii"),
       date: format(temp, "dd.MM.yyyy"),
+      isToday: isSameDay(temp, new Date()),
     };
   }
 
@@ -26,7 +28,6 @@
 
 <style>
   .wrapper {
-    /* border: 1px solid blue; */
     width: 100%;
     padding: 0 0 0rem 0;
     margin: auto;
@@ -37,9 +38,8 @@
   }
 
   .weekday {
-    /* border-top: 1px solid red; */
     border-bottom: 1px solid black;
-    height: 45px;
+    height: 48px;
     vertical-align: middle;
     padding-left: 1rem;
   }
@@ -49,7 +49,7 @@
     align-items: center;
     flex-flow: column;
     border-right: 1px solid black;
-    height: 45px;
+    height: 48px;
     font-size: large;
   }
 
@@ -59,7 +59,7 @@
 
   span {
     display: block;
-    font-size: x-small;
+    font-size: small;
   }
 </style>
 
@@ -73,7 +73,8 @@
 
 {#each visibleWeekdays as weekday}
   <div class="row wrapper weekday">
-    <div class="col-1 day-name font-italic">
+    <div
+      class={`col-1 day-name font-italic ${weekday.isToday ? 'text-success' : ''}`}>
       {weekday.day}
       <span>{weekday.date}</span>
     </div>
