@@ -55,11 +55,27 @@
 
   .day-graph {
     border-right: 1px solid black;
+    padding: 0.5rem 0 0.5rem 0;
   }
 
   span {
     display: block;
     font-size: small;
+  }
+
+  .item {
+    position: relative;
+    border: 1px solid red;
+    background-color: red;
+    border-radius: 10px;
+    left: 95px;
+    width: 15%;
+    height: 100%;
+  }
+
+  .item:hover {
+    cursor: pointer;
+    border: 2px solid black;
   }
 </style>
 
@@ -78,6 +94,8 @@
       {weekday.day}
       <span>{weekday.date}</span>
     </div>
-    <div class="col-10 day-graph" />
+    <div class="col-10 day-graph">
+      <div class={`${weekday.isToday ? 'item' : ''}`} />
+    </div>
   </div>
 {/each}

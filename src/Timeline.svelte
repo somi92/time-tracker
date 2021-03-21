@@ -2,12 +2,13 @@
   import { showOnlyStandardWorkingHours } from "./store";
 
   let width;
+  let timePoints = Array.from(Array(24).keys());
 
-  $: timePoints = $showOnlyStandardWorkingHours
+  $: selectedTimePoints = $showOnlyStandardWorkingHours
     ? timePoints.slice(7, 19)
-    : Array.from(Array(24).keys());
+    : timePoints;
 
-  $: unitWidth = width / timePoints.length - 10;
+  $: unitWidth = width / selectedTimePoints.length - 10;
 </script>
 
 <style>
@@ -18,12 +19,14 @@
     display: flex;
     flex-flow: row;
     padding: 0 0px 0 5px;
+    border: 2px solid green;
   }
 
   .point {
     position: relative;
     width: 10px;
     font-size: small;
+    border: 1px solid red;
   }
 
   .hidden {
@@ -32,7 +35,7 @@
 </style>
 
 <div class="pdiv" bind:clientWidth={width}>
-  {#each timePoints as point, i}
+  {#each selectedTimePoints as point, i}
     <div
       class="point"
       class:hidden={i % 1 != 0}
